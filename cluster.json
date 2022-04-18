@@ -1,0 +1,18 @@
+{
+	"__default__" :
+	{
+		"queue" : "general",
+		"mem": "16",
+		"threads" : 1,
+		"time" : "2:00",
+		"extra" : "",
+		"latency": "10"
+	},
+	"run_lohhla" :
+	{
+	  	"queue" : "general",
+		"mem": "128",
+		"threads" : 1,
+		"time" : "24:00"
+	}
+}

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+module load singularity/3.6.2
+
+export SINGULARITY_CACHEDIR="/juno/work/shah/vazquezi/projects/lohhla/cache"
+export SINGULARITY_TMPDIR="/juno/work/shah/vazquezi/projects/lohhla/tmp"
+
+# Run snakemake
+snakemake --jobname 's.{jobid}.{rulename}' \
+	--js jobscript.sh \
+	--keep-going \
+	--reason \
+	--printshellcmds \
+	--latency-wait 10 \
+	--rerun-incomplete \
+	--stats snakemake_$(date +"%Y%m%d_%H%M%S").stats \
+	-j 5000 \
+	--cluster-config cluster.json \
+	--cluster "bsub -q {cluster.queue} -n {cluster.threads} -W {cluster.time} -M{cluster.mem} -R\"span[hosts=1] select[mem>{cluster.mem}] rusage[mem={cluster.mem}]\" {cluster.extra} -o out.txt -e err.txt" \
+	--shadow-prefix "/juno/work/shah/vazquezi/projects/lohhla/cache" \
+	--use-singularity \
+	--singularity-args "-B /juno/work:/juno/work -B /work:/work" \
+	--singularity-prefix /juno/work/shah/vazquezi/projects/lohhla/.singularity
