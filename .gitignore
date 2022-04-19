@@ -1,2 +1,5 @@
+out.txt
+err.txt
+
 cache/*
 results/*
